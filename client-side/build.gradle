@@ -1,0 +1,13 @@
+dependencies {
+    implementation "$project.libs.springWeb"
+    implementation "$project.libs.springKafka"
+    implementation "$project.libs.springRetry"
+    implementation "$project.libs.springAspects"
+    implementation "$project.libs.snmp4j"
+    implementation "$project.libs.logstash"
+    implementation "$project.libs.lombok"
+}
+
+test {
+    useJUnitPlatform()
+}
