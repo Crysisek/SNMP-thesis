@@ -5,7 +5,8 @@ dependencies {
     implementation "$project.libs.springAspects"
     implementation "$project.libs.snmp4j"
     implementation "$project.libs.logstash"
-    implementation "$project.libs.lombok"
+    compileOnly "$project.libs.lombok"
+    annotationProcessor "$project.libs.lombok"
 }
 
 test {
