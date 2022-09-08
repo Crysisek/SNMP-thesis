@@ -10,7 +10,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import client.tools.security.SecurityAuth;
+import client.network.service.config.security.SecurityAuth;
 
 /**
  * Implementation of DisconnectClientService.

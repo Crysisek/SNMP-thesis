@@ -13,7 +13,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import client.tools.security.SecurityAuth;
+import client.network.service.config.security.SecurityAuth;
 
 /**
  * Implementation of ConfigurationDownloadService.
@@ -42,7 +42,6 @@ class ConfigurationDownloadServiceImpl implements ConfigurationDownloadService {
     ConfigResponseDto config = new ConfigResponseDto();
     try {
       ObjectMapper mapper = new ObjectMapper();
-
       config = mapper.readValue(configFile, ConfigResponseDto.class);
     } catch (IOException e) {
       log.error(e.getMessage());
@@ -60,7 +59,6 @@ class ConfigurationDownloadServiceImpl implements ConfigurationDownloadService {
             ConfigResponseDto.class
         ).getBody();
         ObjectMapper mapper = new ObjectMapper();
-
         mapper.writeValue(file, config);
       } catch (RestClientException e) {
         log.warn("Failed to download configuration from server.");

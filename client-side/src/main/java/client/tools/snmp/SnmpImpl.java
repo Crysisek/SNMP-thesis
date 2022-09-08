@@ -43,6 +43,7 @@ public class SnmpImpl implements SnmpCore {
   private static final String CPU_USAGE = "cpuUsage";
   private static final String MAX_SIZE = "maxSize";
   private static final String USED_SIZE = "usedSize";
+  private static final String ALLOCATION_UNIT = "allocationUnit";
 
   private final ClientResponseDto clientResponseDto;
   private final ApplicationContext applicationContext;
@@ -69,7 +70,10 @@ public class SnmpImpl implements SnmpCore {
   }
 
   @Override
-  @Retryable(value = {SnmpException.class}, maxAttempts = 5, backoff = @Backoff(delay = 5000))
+  @Retryable(value = {SnmpException.class},
+      maxAttemptsExpression = "${retry.snmp.maxAttepmts}",
+      backoff = @Backoff(delayExpression = "${retry.snmp.delay}")
+  )
   public ClientResponseDto downloadStatuses(Config config) {
     Map<String, String> results = new LinkedHashMap<>();
     for (String key : config.nameOidPair().keySet()) {
@@ -82,22 +86,22 @@ public class SnmpImpl implements SnmpCore {
           all[i] = sequence + (Integer.parseInt(lastChar) + i);
         }
         List<VariableBinding> cpusCoreUsage = this.getList(all);
-        Double result = cpusCoreUsage.stream()
+        double result = cpusCoreUsage.stream()
             .mapToInt(v -> v.getVariable().toInt())
             .average()
             .orElse(0.0);
-        results.put(key, result + " %");
+        results.put(key, (int) result + " %");
         continue;
       }
       try {
-        results.put(key, this.get(config.nameOidPair().get(key)).getVariable().toString());
+        results.put(key, this.get(oid).getVariable().toString());
       } catch (SnmpException e) {
         log.warn(e.getMessage(), e);
         throw e;
       }
     }
 
-    if (!results.getOrDefault("allocationUnit", NO_SUCH_OBJECT).equals(NO_SUCH_OBJECT)
+    if (!results.getOrDefault(ALLOCATION_UNIT, NO_SUCH_OBJECT).equals(NO_SUCH_OBJECT)
         || !results.getOrDefault(MAX_SIZE, NO_SUCH_OBJECT).equals(NO_SUCH_OBJECT)
         || !results.getOrDefault(USED_SIZE, NO_SUCH_OBJECT).equals(NO_SUCH_OBJECT)) {
       int allocationUnit = Integer.parseInt(results.remove("allocationUnit"));

@@ -14,7 +14,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import client.tools.security.SecurityAuth;
+import client.network.service.config.security.SecurityAuth;
 
 /**
  * Implementation of RegisterService.
@@ -43,7 +43,6 @@ class RegisterServiceImpl implements RegisterService {
     ClientResponseDto client = new ClientResponseDto();
     try {
       ObjectMapper mapper = new ObjectMapper();
-
       UUID uuid = mapper.readValue(file, UUID.class);
       client.setUuid(uuid);
     } catch (IOException e) {
@@ -62,7 +61,6 @@ class RegisterServiceImpl implements RegisterService {
             UUID.class
         ).getBody();
         ObjectMapper mapper = new ObjectMapper();
-
         mapper.writeValue(file, uuid);
       } catch (RestClientException e) {
         log.warn("Failed to register to server at address: " + url);
