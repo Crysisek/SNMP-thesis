@@ -1,10 +1,10 @@
 package client.network.dto;
 
+import client.model.Config;
 import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import client.model.Config;
 
 /**
  * Represents configuration dto downloaded from server.
@@ -13,7 +13,8 @@ import client.model.Config;
  */
 @lombok.Generated
 @Data
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class ConfigResponseDto {
 
   private int timeInterval;

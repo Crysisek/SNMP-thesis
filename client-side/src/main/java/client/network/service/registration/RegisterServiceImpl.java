@@ -1,20 +1,21 @@
 package client.network.service.registration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import client.exception.FailedToRegisterException;
+import client.network.dto.ClientResponseDto;
+import client.network.service.config.security.SecurityAuth;
+import client.tools.terminator.Terminator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import client.network.dto.ClientResponseDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import client.network.service.config.security.SecurityAuth;
 
 /**
  * Implementation of RegisterService.
@@ -27,12 +28,17 @@ import client.network.service.config.security.SecurityAuth;
 class RegisterServiceImpl implements RegisterService {
 
   private final RestTemplate restTemplate;
+
   private final SecurityAuth securityAuth;
+
+  private final Terminator terminator;
 
   @Value("${url.register}")
   private String url;
+
   @Value("${auth.name}")
   private String name;
+
   @Value("${auth.password}")
   private String password;
 
@@ -46,7 +52,7 @@ class RegisterServiceImpl implements RegisterService {
       UUID uuid = mapper.readValue(file, UUID.class);
       client.setUuid(uuid);
     } catch (IOException e) {
-      log.error(e.getMessage());
+      terminator.terminate(e, 4);
     }
     return client;
   }
@@ -66,7 +72,7 @@ class RegisterServiceImpl implements RegisterService {
         log.warn("Failed to register to server at address: " + url);
         throw new FailedToRegisterException("Failed to register to server at address: " + url);
       } catch (IOException e) {
-        log.error(e.getMessage());
+        terminator.terminate(e, 4);
       }
     }
   }

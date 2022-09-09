@@ -7,4 +7,6 @@ import java.util.Map;
  *
  * @author kacper.kalinowski
  */
-public record Config(int timeInterval, Map<String, String> nameOidPair) {}
+public record Config(int timeInterval, Map<String, String> nameOidPair) {
+
+}

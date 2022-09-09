@@ -1,8 +1,8 @@
 package client.network.service.kafka;
 
+import client.network.dto.ClientResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import client.network.dto.ClientResponseDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package client.network.service.registration;
 
-import java.io.File;
 import client.network.dto.ClientResponseDto;
+import java.io.File;
 
 /**
  * Responsible for registration process.
@@ -11,7 +11,7 @@ import client.network.dto.ClientResponseDto;
 public interface RegisterService {
 
   /**
-   * Reading file to set clients id.
+   * Register client to the server. If already registered, read id from file.
    *
    * @param file File to be read.
    * @return ClientResponseDto.

@@ -1,5 +1,9 @@
 package client.tools.snmp;
 
+import client.exception.SnmpException;
+import client.model.Config;
+import client.network.dto.ClientResponseDto;
+import client.tools.terminator.Terminator;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -8,8 +12,6 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import client.model.Config;
-import client.network.dto.ClientResponseDto;
 import org.snmp4j.CommunityTarget;
 import org.snmp4j.PDU;
 import org.snmp4j.Snmp;
@@ -20,13 +22,10 @@ import org.snmp4j.smi.OID;
 import org.snmp4j.smi.OctetString;
 import org.snmp4j.smi.VariableBinding;
 import org.snmp4j.transport.DefaultUdpTransportMapping;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
-import client.exception.SnmpException;
 
 /**
  * Implementation of SnmpCore.
@@ -39,16 +38,25 @@ import client.exception.SnmpException;
 public class SnmpImpl implements SnmpCore {
 
   private static final int GIGABYTE = 1073741824;
+
   private static final String NO_SUCH_OBJECT = "noSuchObject";
+
   private static final String CPU_USAGE = "cpuUsage";
+
   private static final String MAX_SIZE = "maxSize";
+
   private static final String USED_SIZE = "usedSize";
+
   private static final String ALLOCATION_UNIT = "allocationUnit";
 
   private final ClientResponseDto clientResponseDto;
-  private final ApplicationContext applicationContext;
+
+  private final Terminator terminator;
+
   private Snmp snmp = null;
+
   private CommunityTarget target;
+
   private int cores;
 
   @PostConstruct
@@ -71,7 +79,7 @@ public class SnmpImpl implements SnmpCore {
 
   @Override
   @Retryable(value = {SnmpException.class},
-      maxAttemptsExpression = "${retry.snmp.maxAttepmts}",
+      maxAttemptsExpression = "${retry.snmp.maxAttempts}",
       backoff = @Backoff(delayExpression = "${retry.snmp.delay}")
   )
   public ClientResponseDto downloadStatuses(Config config) {
@@ -79,25 +87,19 @@ public class SnmpImpl implements SnmpCore {
     for (String key : config.nameOidPair().keySet()) {
       String oid = config.nameOidPair().get(key);
       if (key.equals(CPU_USAGE) && !oid.equals(NO_SUCH_OBJECT)) {
-        String lastChar = oid.substring(config.nameOidPair().get(key).length() - 1);
-        String sequence = oid.substring(0, config.nameOidPair().get(key).length() - 1);
-        String[] all = new String[cores];
-        for (int i = 0; i < cores; ++i) {
-          all[i] = sequence + (Integer.parseInt(lastChar) + i);
+        try {
+          results.put(key, (int) formatCpuUsage(oid) + " %");
+        } catch (SnmpException e) {
+          log.warn(e.getMessage(), e);
+          throw e;
         }
-        List<VariableBinding> cpusCoreUsage = this.getList(all);
-        double result = cpusCoreUsage.stream()
-            .mapToInt(v -> v.getVariable().toInt())
-            .average()
-            .orElse(0.0);
-        results.put(key, (int) result + " %");
-        continue;
-      }
-      try {
-        results.put(key, this.get(oid).getVariable().toString());
-      } catch (SnmpException e) {
-        log.warn(e.getMessage(), e);
-        throw e;
+      } else {
+        try {
+          results.put(key, this.get(oid).getVariable().toString());
+        } catch (SnmpException e) {
+          log.warn(e.getMessage(), e);
+          throw e;
+        }
       }
     }
 
@@ -117,6 +119,20 @@ public class SnmpImpl implements SnmpCore {
 
     clientResponseDto.setNameStatusPair(results);
     return clientResponseDto;
+  }
+
+  private double formatCpuUsage(String oid) {
+    String lastChar = oid.substring(oid.length() - 1);
+    String sequence = oid.substring(0, oid.length() - 1);
+    String[] all = new String[cores];
+    for (int i = 0; i < cores; ++i) {
+      all[i] = sequence + (Integer.parseInt(lastChar) + i);
+    }
+    List<VariableBinding> cpusCoreUsage = this.getList(all);
+    return cpusCoreUsage.stream()
+        .mapToInt(v -> v.getVariable().toInt())
+        .average()
+        .orElse(0.0);
   }
 
   private VariableBinding get(String oid) {
@@ -157,8 +173,6 @@ public class SnmpImpl implements SnmpCore {
   @Recover
   private ClientResponseDto recoverAfterSnmpException(SnmpException e) {
     log.error("After many attempts, application could not connect to the SNMP client.service!");
-    SpringApplication.exit(applicationContext, () -> 3);
-    System.exit(3);
-    return null;
+    return (ClientResponseDto) terminator.terminate(e, 3);
   }
 }

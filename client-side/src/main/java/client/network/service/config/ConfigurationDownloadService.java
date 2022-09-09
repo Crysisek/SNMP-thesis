@@ -1,7 +1,7 @@
 package client.network.service.config;
 
-import java.io.File;
 import client.network.dto.ConfigResponseDto;
+import java.io.File;
 
 /**
  * Responsible for configuration download.
@@ -11,8 +11,8 @@ import client.network.dto.ConfigResponseDto;
 public interface ConfigurationDownloadService {
 
   /**
-   * Read client.config from file.
-   * If file is empty or does not exist, try downloading configuration from server.
+   * Read client config from file. If file is empty or does not exist, try downloading configuration
+   * from server.
    *
    * @param configFile File to be read.
    * @return ConfigDataDto.

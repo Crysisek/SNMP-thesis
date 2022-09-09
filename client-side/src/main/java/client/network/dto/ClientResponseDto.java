@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
  */
 @lombok.Generated
 @Data
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class ClientResponseDto {
 
   private UUID uuid;

@@ -1,13 +1,13 @@
 package client.network.kafka;
 
-import lombok.RequiredArgsConstructor;
 import client.model.Config;
 import client.network.dto.ClientResponseDto;
 import client.network.service.kafka.KafkaProducerService;
+import client.tools.snmp.SnmpCore;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import client.tools.snmp.SnmpCore;
 
 /**
  * Implementation of KafkaProducer.

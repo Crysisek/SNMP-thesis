@@ -2,17 +2,16 @@ package client.config;
 
 import client.exception.FailedToDownloadConfigException;
 import client.exception.FailedToRegisterException;
-import java.nio.file.Paths;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import client.model.Config;
 import client.network.dto.ClientResponseDto;
 import client.network.dto.ConfigResponseDto;
 import client.network.service.config.ConfigurationDownloadService;
 import client.network.service.registration.RegisterService;
+import client.tools.terminator.Terminator;
+import java.nio.file.Paths;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.retry.annotation.Backoff;
@@ -28,7 +27,7 @@ class LaunchingConfiguration {
 
   private final RegisterService registerService;
 
-  private final ApplicationContext applicationContext;
+  private final Terminator terminator;
 
   @Value("${configfile.path}")
   private String configFilePath;
@@ -39,7 +38,7 @@ class LaunchingConfiguration {
   @Bean
   @Retryable(value = {FailedToDownloadConfigException.class},
       maxAttemptsExpression = "${retry.config.maxAttempts}",
-      backoff = @Backoff(delayExpression = "${retry.config.maxAttempts}")
+      backoff = @Backoff(delayExpression = "${retry.config.delay}")
   )
   public Config readConfig() {
     ConfigResponseDto clientConfiguration = configurationDownloadService.getClientConfiguration(
@@ -62,9 +61,7 @@ class LaunchingConfiguration {
     log.error(
         "After many attempts, application could not register to the server, and will now shut down."
     );
-    SpringApplication.exit(applicationContext, () -> 1);
-    System.exit(1);
-    return null;
+    return (ClientResponseDto) terminator.terminate(e, 1);
   }
 
   @Recover
@@ -72,8 +69,6 @@ class LaunchingConfiguration {
     log.error(
         "After many attempts, application could not download configuration from the server, and now will shut down."
     );
-    SpringApplication.exit(applicationContext, () -> 2);
-    System.exit(2);
-    return null;
+    return (Config) terminator.terminate(e, 2);
   }
 }

@@ -1,19 +1,20 @@
 package client.network.service.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import client.exception.FailedToDownloadConfigException;
+import client.network.dto.ConfigResponseDto;
+import client.network.service.config.security.SecurityAuth;
+import client.tools.terminator.Terminator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import client.network.dto.ConfigResponseDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-import client.network.service.config.security.SecurityAuth;
 
 /**
  * Implementation of ConfigurationDownloadService.
@@ -26,12 +27,17 @@ import client.network.service.config.security.SecurityAuth;
 class ConfigurationDownloadServiceImpl implements ConfigurationDownloadService {
 
   private final RestTemplate restTemplate;
+
   private final SecurityAuth securityAuth;
+
+  private final Terminator terminator;
 
   @Value("${url.config}")
   private String url;
+
   @Value("${auth.name}")
   private String name;
+
   @Value("${auth.password}")
   private String password;
 
@@ -44,7 +50,7 @@ class ConfigurationDownloadServiceImpl implements ConfigurationDownloadService {
       ObjectMapper mapper = new ObjectMapper();
       config = mapper.readValue(configFile, ConfigResponseDto.class);
     } catch (IOException e) {
-      log.error(e.getMessage());
+      terminator.terminate(e, 5);
     }
     return config;
   }
@@ -64,7 +70,7 @@ class ConfigurationDownloadServiceImpl implements ConfigurationDownloadService {
         log.warn("Failed to download configuration from server.");
         throw new FailedToDownloadConfigException("Failed to download configuration from server.");
       } catch (IOException e) {
-        log.error(e.getMessage());
+        terminator.terminate(e, 5);
       }
     }
   }
