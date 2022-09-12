@@ -16,12 +16,12 @@ buildscript {
 
         libs = [
                springWeb            : "org.springframework.boot:spring-boot-starter-web:$springBoot",
-               springActuator       : "org.springframework.boot:spring-boot-starter-actuator:$springBoot",
+               springSecurity       : "org.springframework.boot:spring-boot-starter-security:$springBoot",
                springMongoDB        : "org.springframework.boot:spring-boot-starter-data-mongodb:$springBoot",
                springKafka          : "org.springframework.kafka:spring-kafka:$versions.springKafka",
                springRetry          : "org.springframework.retry:spring-retry:$versions.springRetry",
                springAspects        : "org.springframework:spring-aspects:$versions.springAspects",
-               swagger              : "io.springfox:springfox-swagger2:$versions.swagger",
+               swagger              : "io.springfox:springfox-boot-starter:$versions.swagger",
                swaggerUI            : "io.springfox:springfox-swagger-ui:$versions.swagger",
                snmp4j               : "org.snmp4j:snmp4j:$versions.snmp4j",
                logstash             : "net.logstash.logback:logstash-logback-encoder:$versions.logstash",

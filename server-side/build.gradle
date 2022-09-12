@@ -1,5 +1,14 @@
 dependencies {
-
+    implementation "$project.libs.springWeb"
+    implementation "$project.libs.springSecurity"
+    implementation "$project.libs.springKafka"
+    implementation "$project.libs.swagger"
+    implementation "$project.libs.swaggerUI"
+    implementation "$project.libs.logstash"
+    implementation "$project.libs.mapstruct"
+    compileOnly "$project.libs.lombok"
+    annotationProcessor "$project.libs.lombok"
+    annotationProcessor "$project.libs.mapstructProcessor"
 }
 
 test {
