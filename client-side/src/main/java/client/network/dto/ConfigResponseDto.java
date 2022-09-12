@@ -20,8 +20,4 @@ public class ConfigResponseDto {
   private int timeInterval;
 
   private Map<String, String> nameOidPair;
-
-  public Config toConfig() {
-    return new Config(this.timeInterval, this.nameOidPair);
-  }
 }

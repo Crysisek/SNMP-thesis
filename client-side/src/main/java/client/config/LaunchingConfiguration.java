@@ -7,6 +7,7 @@ import client.network.dto.ClientResponseDto;
 import client.network.dto.ConfigResponseDto;
 import client.network.service.config.ConfigurationDownloadService;
 import client.network.service.registration.RegisterService;
+import client.tools.mappers.ConfigMapper;
 import client.tools.terminator.Terminator;
 import java.nio.file.Paths;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,8 @@ class LaunchingConfiguration {
 
   private final RegisterService registerService;
 
+  private final ConfigMapper configMapper;
+
   private final Terminator terminator;
 
   @Value("${configfile.path}")
@@ -44,7 +47,7 @@ class LaunchingConfiguration {
     ConfigResponseDto clientConfiguration = configurationDownloadService.getClientConfiguration(
         Paths.get(configFilePath).toFile()
     );
-    return clientConfiguration.toConfig();
+    return configMapper.toConfig(clientConfiguration);
   }
 
   @Bean

@@ -5,8 +5,10 @@ dependencies {
     implementation "$project.libs.springAspects"
     implementation "$project.libs.snmp4j"
     implementation "$project.libs.logstash"
+    implementation "$project.libs.mapstruct"
     compileOnly "$project.libs.lombok"
     annotationProcessor "$project.libs.lombok"
+    annotationProcessor "$project.libs.mapstructProcessor"
 }
 
 test {
