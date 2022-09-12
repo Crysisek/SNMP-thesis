@@ -7,19 +7,27 @@ buildscript {
                 springKafka     : '2.9.0',
                 springRetry     : '1.3.3',
                 springAspects   : '5.3.22',
+                swagger         : '3.0.0',
                 snmp4j          : '3.7.0',
                 logstash        : '7.2',
                 lombok          : '1.18.24',
+                mapstruct       : '1.5.2.Final',
         ]
 
         libs = [
-               springWeb        : "org.springframework.boot:spring-boot-starter-web:$springBoot",
-               springKafka      : "org.springframework.kafka:spring-kafka:$versions.springKafka",
-               springRetry      : "org.springframework.retry:spring-retry:$versions.springRetry",
-               springAspects    : "org.springframework:spring-aspects:$versions.springAspects",
-               snmp4j           : "org.snmp4j:snmp4j:$versions.snmp4j",
-               logstash         : "net.logstash.logback:logstash-logback-encoder:$versions.logstash",
-               lombok           : "org.projectlombok:lombok:$versions.lombok",
+               springWeb            : "org.springframework.boot:spring-boot-starter-web:$springBoot",
+               springActuator       : "org.springframework.boot:spring-boot-starter-actuator:$springBoot",
+               springMongoDB        : "org.springframework.boot:spring-boot-starter-data-mongodb:$springBoot",
+               springKafka          : "org.springframework.kafka:spring-kafka:$versions.springKafka",
+               springRetry          : "org.springframework.retry:spring-retry:$versions.springRetry",
+               springAspects        : "org.springframework:spring-aspects:$versions.springAspects",
+               swagger              : "io.springfox:springfox-swagger2:$versions.swagger",
+               swaggerUI            : "io.springfox:springfox-swagger-ui:$versions.swagger",
+               snmp4j               : "org.snmp4j:snmp4j:$versions.snmp4j",
+               logstash             : "net.logstash.logback:logstash-logback-encoder:$versions.logstash",
+               lombok               : "org.projectlombok:lombok:$versions.lombok",
+               mapstruct            : "org.mapstruct:mapstruct:$versions.mapstruct",
+               mapstructProcessor   : "org.mapstruct:mapstruct-processor:$versions.mapstruct",
         ]
     }
 }
