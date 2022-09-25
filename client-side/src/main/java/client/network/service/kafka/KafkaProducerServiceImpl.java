@@ -24,7 +24,7 @@ class KafkaProducerServiceImpl implements KafkaProducerService {
 
   @Override
   public void send(ClientResponseDto response) {
-    log.info("Publishing to topic " + topic);
+    log.info(response.getUuid() + "is publishing to topic " + topic);
     this.kafkaTemplate.send(topic, response);
   }
 }
