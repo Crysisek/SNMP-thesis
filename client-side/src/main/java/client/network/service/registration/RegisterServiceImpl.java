@@ -2,7 +2,7 @@ package client.network.service.registration;
 
 import client.exception.FailedToRegisterException;
 import client.network.dto.ClientResponseDto;
-import client.network.service.config.security.SecurityAuth;
+import client.network.service.security.SecurityAuth;
 import client.tools.terminator.Terminator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
@@ -36,11 +36,8 @@ class RegisterServiceImpl implements RegisterService {
   @Value("${url.register}")
   private String url;
 
-  @Value("${auth.name}")
-  private String name;
-
-  @Value("${auth.password}")
-  private String password;
+  @Value("${auth.register.username}")
+  private String defaultId;
 
   @Override
   public ClientResponseDto register(File file) {
@@ -54,6 +51,7 @@ class RegisterServiceImpl implements RegisterService {
     } catch (IOException e) {
       terminator.terminate(e, 4);
     }
+    log.info(client.getUuid() + " successfully connected to the server.");
     return client;
   }
 
@@ -63,13 +61,15 @@ class RegisterServiceImpl implements RegisterService {
         UUID uuid = restTemplate.exchange(
             url,
             HttpMethod.POST,
-            new HttpEntity<>(securityAuth.createHeaders(name, password)),
+            new HttpEntity<>(securityAuth.createHeaders(defaultId, defaultId)),
             UUID.class
         ).getBody();
+        if (uuid == null) throw new RestClientException("Response body was null");
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(file, uuid);
       } catch (RestClientException e) {
         log.warn("Failed to register to server at address: " + url);
+        log.warn(e.getMessage());
         throw new FailedToRegisterException("Failed to register to server at address: " + url);
       } catch (IOException e) {
         terminator.terminate(e, 4);

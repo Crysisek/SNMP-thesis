@@ -1,4 +1,4 @@
-package client.network.service.config.security;
+package client.network.service.security;
 
 import org.springframework.http.HttpHeaders;
 

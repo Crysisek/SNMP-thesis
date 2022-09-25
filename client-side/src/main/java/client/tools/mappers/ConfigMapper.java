@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 
 /**
  * Helper class for mapping config related objects.
+ *
+ * @author kacper.kalinowski
  */
 @Mapper(componentModel = "spring")
 public interface ConfigMapper {

@@ -11,7 +11,7 @@ import java.io.File;
 public interface RegisterService {
 
   /**
-   * Register client to the server. If already registered, read id from file.
+   * Register client to the server. If already registered, read username from file.
    *
    * @param file File to be read.
    * @return ClientResponseDto.

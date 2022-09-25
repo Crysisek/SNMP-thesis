@@ -1,7 +1,7 @@
 package client.network.service.disconnection;
 
-import client.network.dto.ClientResponseDto;
-import client.network.service.config.security.SecurityAuth;
+import client.model.ClientInstance;
+import client.network.service.security.SecurityAuth;
 import java.util.UUID;
 import javax.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
@@ -26,24 +26,18 @@ class DisconnectClientServiceImpl implements DisconnectClientService {
 
   private final SecurityAuth securityAuth;
 
-  private final ClientResponseDto clientResponseDto;
+  private final ClientInstance client;
 
   @Value("${url.disconnect}")
   private String url;
-
-  @Value("${auth.name}")
-  private String name;
-
-  @Value("${auth.password}")
-  private String password;
 
   @PreDestroy
   public void disconnect() {
     restTemplate.exchange(
         url,
         HttpMethod.POST,
-        new HttpEntity<>(clientResponseDto.getUuid(),
-            securityAuth.createHeaders(name, password)),
+        new HttpEntity<>(client.uuid(),
+            securityAuth.createHeaders(client.uuid().toString(), client.uuid().toString())),
         UUID.class
     );
     log.info("Client has been disconnected.");

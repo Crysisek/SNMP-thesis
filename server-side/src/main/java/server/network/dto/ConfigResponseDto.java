@@ -1,4 +1,4 @@
-package client.network.dto;
+package server.network.dto;
 
 import java.util.Map;
 import lombok.AllArgsConstructor;

@@ -2,6 +2,7 @@ dependencies {
     implementation "$project.libs.springWeb"
     implementation "$project.libs.springSecurity"
     implementation "$project.libs.springKafka"
+    implementation "$project.libs.springMongoDB"
     implementation "$project.libs.swagger"
     implementation "$project.libs.swaggerUI"
     implementation "$project.libs.logstash"

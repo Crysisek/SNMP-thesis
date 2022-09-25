@@ -2,11 +2,13 @@ package client.config;
 
 import client.exception.FailedToDownloadConfigException;
 import client.exception.FailedToRegisterException;
+import client.model.ClientInstance;
 import client.model.Config;
 import client.network.dto.ClientResponseDto;
 import client.network.dto.ConfigResponseDto;
 import client.network.service.config.ConfigurationDownloadService;
 import client.network.service.registration.RegisterService;
+import client.tools.mappers.ClientMapper;
 import client.tools.mappers.ConfigMapper;
 import client.tools.terminator.Terminator;
 import java.nio.file.Paths;
@@ -15,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
@@ -24,11 +27,14 @@ import org.springframework.retry.annotation.Retryable;
 @Slf4j
 class LaunchingConfiguration {
 
+  @Lazy
   private final ConfigurationDownloadService configurationDownloadService;
 
   private final RegisterService registerService;
 
   private final ConfigMapper configMapper;
+
+  private final ClientMapper clientMapper;
 
   private final Terminator terminator;
 
@@ -55,8 +61,9 @@ class LaunchingConfiguration {
       maxAttemptsExpression = "${retry.register.maxAttempts}",
       backoff = @Backoff(delayExpression = "${retry.register.delay}")
   )
-  public ClientResponseDto register() {
-    return registerService.register(Paths.get(registerFilePath).toFile());
+  public ClientInstance register() {
+    ClientResponseDto clientResponseDto = registerService.register(Paths.get(registerFilePath).toFile());
+    return clientMapper.toClient(clientResponseDto);
   }
 
   @Recover

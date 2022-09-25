@@ -1,4 +1,4 @@
-package client.network.service.config.security;
+package client.network.service.security;
 
 import java.nio.charset.StandardCharsets;
 import org.apache.tomcat.util.codec.binary.Base64;

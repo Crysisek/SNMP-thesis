@@ -1,6 +1,7 @@
 package client.tools.snmp;
 
 import client.exception.SnmpException;
+import client.model.ClientInstance;
 import client.model.Config;
 import client.network.dto.ClientResponseDto;
 import client.tools.terminator.Terminator;
@@ -49,7 +50,7 @@ public class SnmpImpl implements SnmpCore {
 
   private static final String ALLOCATION_UNIT = "allocationUnit";
 
-  private final ClientResponseDto clientResponseDto;
+  private final ClientInstance client;
 
   private final Terminator terminator;
 
@@ -117,8 +118,7 @@ public class SnmpImpl implements SnmpCore {
       results.put(MAX_SIZE, max + " GB");
     }
 
-    clientResponseDto.setNameStatusPair(results);
-    return clientResponseDto;
+    return new ClientResponseDto(client.uuid(), results);
   }
 
   private double formatCpuUsage(String oid) {

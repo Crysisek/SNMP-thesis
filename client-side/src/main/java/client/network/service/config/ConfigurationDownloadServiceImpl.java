@@ -1,8 +1,9 @@
 package client.network.service.config;
 
 import client.exception.FailedToDownloadConfigException;
+import client.model.ClientInstance;
 import client.network.dto.ConfigResponseDto;
-import client.network.service.config.security.SecurityAuth;
+import client.network.service.security.SecurityAuth;
 import client.tools.terminator.Terminator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
@@ -30,16 +31,12 @@ class ConfigurationDownloadServiceImpl implements ConfigurationDownloadService {
 
   private final SecurityAuth securityAuth;
 
+  private final ClientInstance client;
+
   private final Terminator terminator;
 
   @Value("${url.config}")
   private String url;
-
-  @Value("${auth.name}")
-  private String name;
-
-  @Value("${auth.password}")
-  private String password;
 
   @Override
   public ConfigResponseDto getClientConfiguration(File configFile) {
@@ -61,7 +58,7 @@ class ConfigurationDownloadServiceImpl implements ConfigurationDownloadService {
         ConfigResponseDto config = restTemplate.exchange(
             url,
             HttpMethod.GET,
-            new HttpEntity<>(securityAuth.createHeaders(this.name, this.password)),
+            new HttpEntity<>(securityAuth.createHeaders(client.uuid().toString(), client.uuid().toString())),
             ConfigResponseDto.class
         ).getBody();
         ObjectMapper mapper = new ObjectMapper();
