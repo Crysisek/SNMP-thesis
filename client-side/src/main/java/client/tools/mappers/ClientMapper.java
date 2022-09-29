@@ -5,7 +5,7 @@ import client.network.dto.ClientResponseDto;
 import org.mapstruct.Mapper;
 
 /**
- * Helper class for mapping config related objects.
+ * Helper class for mapping client related objects.
  *
  * @author kacper.kalinowski
  */

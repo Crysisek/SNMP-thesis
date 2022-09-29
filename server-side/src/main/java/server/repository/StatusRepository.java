@@ -1,11 +1,11 @@
 package server.repository;
 
-import java.util.UUID;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
-import server.model.Client;
+import server.model.Status;
 
 @Repository
-public interface ClientRepository extends MongoRepository<Client, UUID>, ClientCustomRepository {
+public interface StatusRepository extends MongoRepository<Status, ObjectId> {
 
 }

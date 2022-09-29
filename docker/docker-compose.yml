@@ -26,7 +26,7 @@ services:
       - '5432:8081'
 
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.0.1
+    image: confluentinc/cp-zookeeper:${CONFLUENT_PLATFORM_VERSION}
     container_name: zookeeper
     ports:
       - "2181:2181"
@@ -36,7 +36,7 @@ services:
 
 
   broker:
-    image: confluentinc/cp-kafka:7.0.1
+    image: confluentinc/cp-kafka:${CONFLUENT_PLATFORM_VERSION}
     container_name: broker
     ports:
       - "9092:9092"
@@ -55,8 +55,7 @@ services:
       KAFKA_SSL_KEY_CREDENTIALS: 'password'
       KAFKA_SSL_TRUSTSTORE_FILENAME: 'kafka.server.truststore.jks'
       KAFKA_SSL_TRUSTSTORE_CREDENTIALS: 'password'
-      KAFKA_SSL_CLIENT_AUTH: requested
-      KAFKA_CREATE_TOPICS: "SendingValues:16:1"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     volumes:
       - type: bind
         source: ./certificates/kafka.server.keystore.jks
@@ -68,5 +67,19 @@ services:
         source: ./certificates/password
         target: /etc/kafka/secrets/password
       - /var/run/docker.sock:/var/run/docker.sock
+
+  # Automatically creates required kafka topics if they were not created.
+  # https://github.com/yan-khonski-it/kafka-compose
+  kafka-topics-creator:
+    build:
+      context: kafka-topics-creator
+      dockerfile: Dockerfile
+    container_name: kafka-topics-creator
+    depends_on:
+      - zookeeper
+      - broker
+    environment:
+      BOOTSTRAP_HOSTS: "broker:9092"
+      KAFKA_TOPICS: "Statuses"
 volumes:
   data: {}

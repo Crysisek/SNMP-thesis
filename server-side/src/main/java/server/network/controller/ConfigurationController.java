@@ -15,7 +15,6 @@ import server.model.Config;
 import server.network.dto.ConfigResponseDto;
 import server.network.service.ClientService;
 import server.tools.mappers.ConfigMapper;
-import server.types.Condition;
 
 /**
  * Sets endpoints for registration, config download and disconnection.
@@ -49,10 +48,6 @@ public class ConfigurationController {
 
   @PostMapping("disconnect/{username}")
   public void disconnect(@PathVariable UUID username) {
-    clientService.findByUsername(username)
-        .ifPresent(user -> {
-          log.warn("Client with id: " + username + " logged out.");
-          user.setCondition(Condition.DISCONNECTED);
-        });
+    clientService.disconnect(username);
   }
 }

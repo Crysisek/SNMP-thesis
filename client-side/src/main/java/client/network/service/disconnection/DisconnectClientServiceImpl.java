@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -36,9 +37,9 @@ class DisconnectClientServiceImpl implements DisconnectClientService {
     restTemplate.exchange(
         url,
         HttpMethod.POST,
-        new HttpEntity<>(client.uuid(),
-            securityAuth.createHeaders(client.uuid().toString(), client.uuid().toString())),
-        UUID.class
+        new HttpEntity<>(securityAuth.createHeaders(client.uuid().toString(), client.uuid().toString())),
+        UUID.class,
+        client.uuid()
     );
     log.info("Client has been disconnected.");
   }

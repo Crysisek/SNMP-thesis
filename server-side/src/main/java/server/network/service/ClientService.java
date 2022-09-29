@@ -1,11 +1,8 @@
 package server.network.service;
 
-import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 import server.model.Client;
-import server.types.ClientRole;
-import server.types.Condition;
 
 /**
  * Responsible for operations on [Client] model.
@@ -21,6 +18,15 @@ public interface ClientService {
    * @return Saved client.
    */
   Client save(Client client);
+
+  /**
+   * Update clients condition to [Condition.Disconnected] in database.
+   *
+   * @param username of client to be updated.
+   */
+  void disconnect(UUID username);
+
+  boolean existsById(UUID username);
 
   /**
    * Create client.

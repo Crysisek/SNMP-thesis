@@ -9,6 +9,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import server.types.ClientRole;
 import server.types.Condition;
 
+/**
+ * Represents client in database.
+ *
+ * @author kacper.kalinowski
+ */
+@lombok.Generated
 @Data
 @Builder
 @Document

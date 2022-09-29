@@ -30,6 +30,16 @@ public class ClientServiceImpl implements ClientService {
   }
 
   @Override
+  public void disconnect(UUID username) {
+    repository.disconnectUserIfExists(username);
+  }
+
+  @Override
+  public boolean existsById(UUID username) {
+    return repository.existsById(username);
+  }
+
+  @Override
   public Client createClient() {
     UUID username = UUID.randomUUID();
     return Client.builder()

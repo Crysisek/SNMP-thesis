@@ -10,7 +10,7 @@ import client.network.dto.ClientResponseDto;
 public interface KafkaProducerService {
 
   /**
-   * This method sends given dtos to the kafka.
+   * Sends given dtos to the kafka.
    *
    * @param response Message to be sent.
    */
