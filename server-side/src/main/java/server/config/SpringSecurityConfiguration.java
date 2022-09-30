@@ -50,9 +50,9 @@ public class SpringSecurityConfiguration {
         .httpBasic().and()
         .formLogin().and()
         .authorizeRequests()
-        .antMatchers("/configuration/register").hasAuthority(ClientRole.DEFAULT.name())
-        .antMatchers("/configuration/config").hasAuthority(ClientRole.USER.name())
-        .antMatchers("/configuration/disconnect/**").hasAuthority(ClientRole.USER.name())
+        .antMatchers("/api/configuration/register").hasAuthority(ClientRole.DEFAULT.name())
+        .antMatchers("/api/configuration/config").hasAuthority(ClientRole.USER.name())
+        .antMatchers("/api/configuration/disconnect/**").hasAuthority(ClientRole.USER.name())
         .antMatchers("/**").hasAnyAuthority(ClientRole.ADMIN.name());
 
     return http.build();

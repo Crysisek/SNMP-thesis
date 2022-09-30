@@ -33,7 +33,7 @@ class RegisterServiceImpl implements RegisterService {
 
   private final Terminator terminator;
 
-  @Value("${url.register}")
+  @Value("${url}api/configuration/register")
   private String url;
 
   @Value("${auth.register.username}")

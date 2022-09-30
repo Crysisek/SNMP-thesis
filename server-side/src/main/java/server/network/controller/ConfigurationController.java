@@ -15,6 +15,7 @@ import server.model.Config;
 import server.network.dto.ConfigResponseDto;
 import server.network.service.ClientService;
 import server.tools.mappers.ConfigMapper;
+import server.types.Condition;
 
 /**
  * Sets endpoints for registration, config download and disconnection.
@@ -25,7 +26,7 @@ import server.tools.mappers.ConfigMapper;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("configuration")
+@RequestMapping("api/configuration")
 public class ConfigurationController {
 
   private final Config config;
@@ -48,6 +49,6 @@ public class ConfigurationController {
 
   @PostMapping("disconnect/{username}")
   public void disconnect(@PathVariable UUID username) {
-    clientService.disconnect(username);
+    clientService.updateCondition(username, Condition.DISCONNECTED);
   }
 }

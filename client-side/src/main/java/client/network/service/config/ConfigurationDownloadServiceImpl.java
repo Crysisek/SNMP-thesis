@@ -35,7 +35,7 @@ class ConfigurationDownloadServiceImpl implements ConfigurationDownloadService {
 
   private final Terminator terminator;
 
-  @Value("${url.config}")
+  @Value("${url}api/configuration/config")
   private String url;
 
   @Override

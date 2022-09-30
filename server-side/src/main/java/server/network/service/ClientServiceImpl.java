@@ -1,9 +1,14 @@
 package server.network.service;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import server.model.Client;
@@ -17,6 +22,7 @@ import server.types.Condition;
  * @author kacper.kalinowski
  */
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
 
@@ -29,9 +35,17 @@ public class ClientServiceImpl implements ClientService {
     return repository.save(client);
   }
 
+  public void updateCondition(UUID username, Condition condition) {
+    repository.updateCondition(username, condition);
+  }
+
   @Override
-  public void disconnect(UUID username) {
-    repository.disconnectUserIfExists(username);
+  public void updateAllConditionsAndLatestUpdate(
+      List<UUID> usernames,
+      Condition condition,
+      Instant now
+  ) {
+    repository.updateAllConditionsAndLatestUpdate(usernames, condition, now);
   }
 
   @Override
@@ -54,5 +68,21 @@ public class ClientServiceImpl implements ClientService {
   @Override
   public Optional<Client> findByUsername(UUID id) {
     return repository.findById(id);
+  }
+
+  @Scheduled(fixedDelayString = "${schedule.log.checkOfflineClients}", timeUnit = TimeUnit.MINUTES)
+  void checkOfflineClients() {
+    repository.findAllByCondition(Condition.OFFLINE).forEach(offline -> log.warn(
+            "Client with id: {} did not send any statuses for the last {} minutes. Latest update was: {}",
+            offline.getUsername(),
+            Instant.now().until(offline.getLatestUpdateAt(), ChronoUnit.MINUTES),
+            offline.getLatestUpdateAt()
+        )
+    );
+  }
+
+  @Scheduled(fixedDelayString = "${schedule.markOfflineClients}", timeUnit = TimeUnit.MINUTES)
+  void markOfflineClients() {
+    repository.updateInactiveClientsConditions(Condition.OFFLINE);
   }
 }

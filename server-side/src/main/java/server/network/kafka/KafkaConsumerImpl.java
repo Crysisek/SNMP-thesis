@@ -2,8 +2,10 @@ package server.network.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -13,6 +15,7 @@ import server.network.dto.ClientResponseDto;
 import server.network.service.ClientService;
 import server.network.service.StatusService;
 import server.tools.mappers.ClientMapper;
+import server.types.Condition;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +40,11 @@ public class KafkaConsumerImpl implements KafkaConsumer {
     List<Status> statuses = extractFromStringsToResponseDtos(responses).stream()
         .map(clientMapper::toStatus)
         .toList();
+    List<UUID> clientsUsernames = statuses.stream()
+        .map(status -> status.getClient().getUsername())
+        .toList();
+
+    clientService.updateAllConditionsAndLatestUpdate(clientsUsernames, Condition.ONLINE, Instant.now());
     statusService.saveAll(statuses);
     log.info(statuses.size() + " known clients send their statuses and they were saved to the database.");
   }

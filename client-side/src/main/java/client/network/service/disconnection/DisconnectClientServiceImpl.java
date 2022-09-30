@@ -29,7 +29,7 @@ class DisconnectClientServiceImpl implements DisconnectClientService {
 
   private final ClientInstance client;
 
-  @Value("${url.disconnect}")
+  @Value("${url}api/configuration/disconnect/{username}")
   private String url;
 
   @PreDestroy
