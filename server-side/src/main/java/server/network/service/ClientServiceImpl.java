@@ -75,7 +75,7 @@ public class ClientServiceImpl implements ClientService {
     repository.findAllByCondition(Condition.OFFLINE).forEach(offline -> log.warn(
             "Client with id: {} did not send any statuses for the last {} minutes. Latest update was: {}",
             offline.getUsername(),
-            Instant.now().until(offline.getLatestUpdateAt(), ChronoUnit.MINUTES),
+            offline.getLatestUpdateAt().until(Instant.now(), ChronoUnit.MINUTES),
             offline.getLatestUpdateAt()
         )
     );

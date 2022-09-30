@@ -66,7 +66,7 @@ public class SnmpImpl implements SnmpCore {
       this.snmp = new Snmp(new DefaultUdpTransportMapping());
       this.snmp.listen();
     } catch (IOException e) {
-      log.error(e.getMessage());
+      log.error(client.uuid() + " - " + e.getMessage());
     }
     this.target = new CommunityTarget();
     this.target.setCommunity(new OctetString("public"));
@@ -91,14 +91,14 @@ public class SnmpImpl implements SnmpCore {
         try {
           results.put(key, (int) formatCpuUsage(oid) + " %");
         } catch (SnmpException e) {
-          log.warn(e.getMessage(), e);
+          log.warn(client.uuid() + " - " + e.getMessage(), e);
           throw e;
         }
       } else {
         try {
           results.put(key, this.get(oid).getVariable().toString());
         } catch (SnmpException e) {
-          log.warn(e.getMessage(), e);
+          log.warn(client.uuid() + " - " + e.getMessage(), e);
           throw e;
         }
       }
@@ -142,7 +142,7 @@ public class SnmpImpl implements SnmpCore {
     try {
       response = snmp.send(pdu, this.target);
     } catch (IOException e) {
-      log.error(e.getMessage());
+      log.error(client.uuid() + " - " + e.getMessage());
     }
 
     if (response == null || response.getResponse() == null) {
@@ -161,7 +161,7 @@ public class SnmpImpl implements SnmpCore {
     try {
       response = snmp.send(pdu, this.target);
     } catch (IOException e) {
-      log.error(e.getMessage());
+      log.error(client.uuid() + " - " + e.getMessage());
     }
     if (response == null || response.getResponse() == null) {
       throw new SnmpException("SNMP response timed out!");

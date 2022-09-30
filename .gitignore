@@ -7,6 +7,9 @@ config/
 gen/
 out/
 
+# Unignore docker files
+!docker/**
+
 # Gradle files
 .gradle/
 build/

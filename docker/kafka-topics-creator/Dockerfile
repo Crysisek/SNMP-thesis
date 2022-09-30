@@ -1,6 +1,7 @@
+ARG CONFLUENT_PLATFORM_VERSION
 # It is recommened to use same version as kafka broker is used.
 # So no additional images are pulled.
-FROM confluentinc/cp-kafka:7.0.1
+FROM confluentinc/cp-kafka:${CONFLUENT_PLATFORM_VERSION}
 
 WORKDIR usr/bin
 

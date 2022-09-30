@@ -64,7 +64,7 @@ class ConfigurationDownloadServiceImpl implements ConfigurationDownloadService {
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(file, config);
       } catch (RestClientException e) {
-        log.warn("Failed to download configuration from server.");
+        log.warn(client.uuid() + " - failed to download configuration from server.");
         throw new FailedToDownloadConfigException("Failed to download configuration from server.");
       } catch (IOException e) {
         terminator.terminate(e, 5);
