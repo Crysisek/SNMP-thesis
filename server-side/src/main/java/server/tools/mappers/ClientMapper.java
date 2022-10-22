@@ -1,6 +1,8 @@
 package server.tools.mappers;
 
 import java.time.Instant;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -8,7 +10,9 @@ import org.mapstruct.Mappings;
 import org.mapstruct.Named;
 import server.model.Client;
 import server.model.Status;
+import server.network.dto.ClientPresentationDto;
 import server.network.dto.ClientResponseDto;
+import server.network.dto.StatusPresentationDto;
 
 /**
  * Helper class for mapping client related objects.
@@ -17,6 +21,14 @@ import server.network.dto.ClientResponseDto;
  */
 @Mapper(componentModel = "spring")
 public interface ClientMapper {
+
+  /**
+   * Maps Client to ClientPresentationDto.
+   *
+   * @param client Parameter to be mapped from.
+   * @return ClientPresentationDto.
+   */
+  ClientPresentationDto toClientPresentationDto(Client client);
 
   /**
    * Maps ClientResponseDto to Status.

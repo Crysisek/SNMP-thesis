@@ -1,5 +1,6 @@
 package server.config;
 
+import java.time.Instant;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,7 @@ import server.model.Client;
 import server.network.service.ClientDetailsService;
 import server.network.service.ClientService;
 import server.types.ClientRole;
+import server.types.Condition;
 
 @Configuration
 @RequiredArgsConstructor
@@ -64,12 +66,18 @@ public class SpringSecurityConfiguration {
             .username(UUID.fromString(defaultId))
             .password(passwordEncoder.encode(defaultId))
             .role(ClientRole.DEFAULT)
+            .createdAt(Instant.now())
+            .latestUpdateAt(Instant.EPOCH)
+            .condition(Condition.NO_CONDITION)
             .build();
 
     Client admin = Client.builder()
         .username(UUID.fromString(adminId))
         .password(passwordEncoder.encode(adminId))
         .role(ClientRole.ADMIN)
+        .createdAt(Instant.now())
+        .latestUpdateAt(Instant.EPOCH)
+        .condition(Condition.NO_CONDITION)
         .build();
 
     if (clientService.findByUsername(defaultClient.getUsername()).isEmpty()) {

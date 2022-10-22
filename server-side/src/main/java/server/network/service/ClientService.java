@@ -4,8 +4,13 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.data.domain.Sort.Direction;
 import server.model.Client;
+import server.network.dto.ClientPresentationDto;
+import server.network.dto.ClientPresentationPagedDto;
+import server.types.ClientRole;
 import server.types.Condition;
+import server.types.SortColumn;
 
 /**
  * Responsible for operations on [Client] model.
@@ -54,10 +59,45 @@ public interface ClientService {
   Client createClient();
 
   /**
-   * Searches for customer by username.
+   * Searches for client by username.
    *
    * @param username Provided username.
    * @return Optional of Client.
    */
   Optional<Client> findByUsername(UUID username);
+
+  /**
+   * Searches for client by username and maps result to DTO object.
+   *
+   * @param username Provided username.
+   * @return mapped dto object.
+   */
+  ClientPresentationDto getClientByUsername(UUID username);
+
+  /**
+   * Searches for clients by given criteria.
+   *
+   * @param page number.
+   * @param size of page.
+   * @param lastConnectionSince earlier date.
+   * @param lastConnectionTill later date.
+   * @param createdSince earlier date.
+   * @param createdTill later date.
+   * @param conditions list of conditions to filter by.
+   * @param sortColumn by which.
+   * @param sortDirection ASC or DESC.
+   * @return list of clients satisfying given criteria.
+   */
+  ClientPresentationPagedDto getClients(
+      int page,
+      int size,
+      Instant lastConnectionSince,
+      Instant lastConnectionTill,
+      Instant createdSince,
+      Instant createdTill,
+      List<Condition> conditions,
+      List<ClientRole> roles,
+      SortColumn sortColumn,
+      Direction sortDirection
+  );
 }

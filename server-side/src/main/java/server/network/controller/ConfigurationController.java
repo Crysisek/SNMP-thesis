@@ -2,7 +2,6 @@ package server.network.controller;
 
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +22,6 @@ import server.types.Condition;
  * @author kacper.kalinowski
  */
 @lombok.Generated
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/configuration")

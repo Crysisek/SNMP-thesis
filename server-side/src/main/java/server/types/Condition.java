@@ -22,7 +22,11 @@ public enum Condition {
   /**
    * Disconnected: when client shuts itself down.
    */
-  DISCONNECTED("DISCONNECTED");
+  DISCONNECTED("DISCONNECTED"),
+  /**
+   * NO_CONDITION: not specified condition.
+   */
+  NO_CONDITION("null");
 
   private final String param;
 }
