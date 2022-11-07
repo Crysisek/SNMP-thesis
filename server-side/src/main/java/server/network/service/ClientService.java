@@ -13,7 +13,7 @@ import server.types.Condition;
 import server.types.SortColumn;
 
 /**
- * Responsible for operations on [Client] model.
+ * Responsible for operations on {@link server.model.Client}.
  *
  * @author kacper.kalinowski
  */

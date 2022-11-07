@@ -6,7 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 /**
- * Implementation of SecurityAuth.
+ * Implementation of {@link client.network.service.security.SecurityAuth}.
  *
  * @author kacper.kalinowski
  */

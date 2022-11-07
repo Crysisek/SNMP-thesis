@@ -19,6 +19,11 @@ import server.network.service.ClientService;
 import server.types.ClientRole;
 import server.types.Condition;
 
+/**
+ * Responsible for security matters.
+ *
+ * @author kacper.kalinowski
+ */
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -45,7 +50,6 @@ public class SpringSecurityConfiguration {
     return authProvider;
   }
 
-
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.cors().and().csrf().disable()
@@ -60,6 +64,10 @@ public class SpringSecurityConfiguration {
     return http.build();
   }
 
+  /**
+   * Creation of default client and admin client at the start of the server.
+   * Those models are saved into database if they are not already there.
+   */
   @EventListener(ApplicationReadyEvent.class)
   public void createDefaultClient() {
     Client defaultClient = Client.builder()

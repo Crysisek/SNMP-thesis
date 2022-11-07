@@ -33,6 +33,11 @@ public class ConfigurationController {
 
   private final ClientService clientService;
 
+  /**
+   * Endpoint for client registration purpose.
+   *
+   * @return Client ID.
+   */
   @PostMapping("register")
   public ResponseEntity<UUID> register() {
     Client newClient = clientService.createClient();
@@ -40,11 +45,21 @@ public class ConfigurationController {
     return new ResponseEntity<>(newClient.getUsername(), HttpStatus.CREATED);
   }
 
+  /**
+   * Endpoint for client configuration purpose.
+   *
+   * @return Client configuration.
+   */
   @GetMapping("config")
   public ResponseEntity<ConfigResponseDto> downloadConfig() {
     return new ResponseEntity<>(configMapper.toConfigResponseDto(config), HttpStatus.OK);
   }
 
+  /**
+   * Endpoint for client disconnection purpose.
+   *
+   * @param username of client to be disconnected.
+   */
   @PostMapping("disconnect/{username}")
   public void disconnect(@PathVariable UUID username) {
     clientService.updateCondition(username, Condition.DISCONNECTED);

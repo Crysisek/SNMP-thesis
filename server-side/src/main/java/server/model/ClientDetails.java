@@ -7,6 +7,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+/**
+ * Represents client details, used for security purposes.
+ *
+ * @author kacper.kalinowski
+ */
 @AllArgsConstructor
 public class ClientDetails implements UserDetails {
 

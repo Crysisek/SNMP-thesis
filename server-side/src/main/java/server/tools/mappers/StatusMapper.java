@@ -12,5 +12,11 @@ import server.network.dto.StatusPresentationDto;
 @Mapper(componentModel = "spring")
 public interface StatusMapper {
 
+  /**
+   * Maps status model to StatusPresentationDto.
+   *
+   * @param status Parameter to be maped from.
+   * @return StatusPresentationDto.
+   */
   StatusPresentationDto toStatusPresentationDto(Status status);
 }

@@ -8,7 +8,7 @@ package client.exception;
 public class FailedToDownloadConfigException extends RuntimeException {
 
   /**
-   * Construct custom client.exception when download is not successful.
+   * Construct custom client exception when download is not successful.
    *
    * @param message Custom message.
    */

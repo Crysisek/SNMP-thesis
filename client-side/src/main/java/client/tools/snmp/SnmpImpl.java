@@ -29,7 +29,7 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Component;
 
 /**
- * Implementation of SnmpCore.
+ * Implementation of {@link client.tools.snmp.SnmpCore}.
  *
  * @author kacper.kalinowski
  */

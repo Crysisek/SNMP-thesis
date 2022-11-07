@@ -8,6 +8,11 @@ import server.model.Status;
 import server.network.dto.StatusPresentationDto;
 import server.network.dto.StatusPresentationPagedDto;
 
+/**
+ * Responsible for operations on {@link server.model.Status}.
+ *
+ * @author kacper.kalinowski
+ */
 public interface StatusService {
 
   Status save(Status status);

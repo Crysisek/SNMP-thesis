@@ -22,6 +22,11 @@ import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Recover;
 import org.springframework.retry.annotation.Retryable;
 
+/**
+ * Responsible for setting starting configuration, for entire app.
+ *
+ * @author kacper.kalinowski
+ */
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
@@ -44,6 +49,11 @@ class LaunchingConfiguration {
   @Value("${registerfile.path}")
   private String registerFilePath;
 
+  /**
+   * Bean creation of type {@link client.model.Config}.
+   *
+   * @return Downloaded or read configuration.
+   */
   @Bean
   @Retryable(value = {FailedToDownloadConfigException.class},
       maxAttemptsExpression = "${retry.config.maxAttempts}",
@@ -56,6 +66,11 @@ class LaunchingConfiguration {
     return configMapper.toConfig(clientConfiguration);
   }
 
+  /**
+   * Bean creation of type {@link client.model.ClientInstance}.
+   *
+   * @return Downloaded or read Client data.
+   */
   @Bean
   @Retryable(value = {FailedToRegisterException.class},
       maxAttemptsExpression = "${retry.register.maxAttempts}",

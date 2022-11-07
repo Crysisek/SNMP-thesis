@@ -18,7 +18,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Implementation of ConfigurationDownloadService.
+ * Implementation of {@link client.network.service.config.ConfigurationDownloadService}.
  *
  * @author kacper.kalinowski
  */

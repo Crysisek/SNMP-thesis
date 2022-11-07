@@ -8,7 +8,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 /**
- * Implementation of KafkaProducerService.
+ * Implementation of {@link client.network.service.kafka.KafkaProducerService}.
  *
  * @author kacper.kalinowski
  */

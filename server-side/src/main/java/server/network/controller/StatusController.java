@@ -27,6 +27,18 @@ public class StatusController {
 
   private final StatusService statusService;
 
+  /**
+   * Retrieve {@link server.network.dto.StatusPresentationPagedDto}.
+   *
+   * @param clientId which statuses will be shown.
+   * @param page of request.
+   * @param size of page.
+   * @param dateFrom time of send statuses from.
+   * @param dateTo time of send statuses till.
+   * @param sortColumn sort by column.
+   * @param sortDirection sort direction.
+   * @return Page with statuses of provided clientId, meeting the requirements.
+   */
   @GetMapping("statuses/{clientId}")
   public ResponseEntity<StatusPresentationPagedDto> getStatuses(
       @PathVariable UUID clientId,

@@ -17,6 +17,11 @@ import server.network.service.StatusService;
 import server.tools.mappers.ClientMapper;
 import server.types.Condition;
 
+/**
+ * Implementation of {@link server.network.kafka.KafkaConsumer}.
+ *
+ * @author kacper.kalinowski
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j

@@ -8,7 +8,7 @@ package client.exception;
 public class SnmpException extends RuntimeException {
 
   /**
-   * Construct custom client.exception when connection time to SNMP is exceeded.
+   * Construct custom client exception when connection time to SNMP is exceeded.
    *
    * @param message Custom message.
    */

@@ -18,7 +18,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Implementation of RegisterService.
+ * Implementation of {@link client.network.service.registration.RegisterService}.
  *
  * @author kacper.kalinowski
  */

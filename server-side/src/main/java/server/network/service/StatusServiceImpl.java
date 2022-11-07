@@ -19,6 +19,11 @@ import server.repository.StatusRepository;
 import server.tools.mappers.StatusMapper;
 import server.types.SortColumn;
 
+/**
+ * Implementation of {@link server.network.service.StatusService}.
+ *
+ * @author kacper.kalinowski
+ */
 @Service
 @RequiredArgsConstructor
 public class StatusServiceImpl implements StatusService {

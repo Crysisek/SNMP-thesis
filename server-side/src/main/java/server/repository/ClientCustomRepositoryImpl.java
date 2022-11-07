@@ -18,6 +18,11 @@ import server.model.Client;
 import server.types.ClientRole;
 import server.types.Condition;
 
+/**
+ * Implementation of {@link server.repository.ClientCustomRepository}.
+ *
+ * @author kacper.kalinowski
+ */
 @Repository
 @RequiredArgsConstructor
 public class ClientCustomRepositoryImpl implements ClientCustomRepository {

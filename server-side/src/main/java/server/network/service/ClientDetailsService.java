@@ -1,6 +1,5 @@
 package server.network.service;
 
-import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +12,7 @@ import server.model.Client;
 import server.model.ClientDetails;
 
 /**
- * Implementation of UserDetailsService.
+ * Implementation of {@link org.springframework.security.core.userdetails.UserDetailsService}.
  *
  * @author kacper.kalinowski
  */

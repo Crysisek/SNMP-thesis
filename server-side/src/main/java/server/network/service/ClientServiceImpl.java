@@ -27,7 +27,7 @@ import server.types.Condition;
 import server.types.SortColumn;
 
 /**
- * Implementation of UserService.
+ * Implementation of {@link server.network.service.ClientService}.
  *
  * @author kacper.kalinowski
  */

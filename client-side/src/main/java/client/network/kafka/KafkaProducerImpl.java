@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 /**
- * Implementation of KafkaProducer.
+ * Implementation of {@link client.network.kafka.KafkaProducer}.
  *
  * @author kacper.kalinowski
  */

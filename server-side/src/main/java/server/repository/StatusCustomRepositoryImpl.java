@@ -13,6 +13,11 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import server.model.Status;
 
+/**
+ * Implementation of {@link server.repository.StatusCustomRepository}.
+ *
+ * @author kacper.kalinowski
+ */
 @Repository
 @RequiredArgsConstructor
 public class StatusCustomRepositoryImpl implements StatusCustomRepository {

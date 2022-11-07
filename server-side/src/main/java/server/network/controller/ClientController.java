@@ -32,7 +32,12 @@ public class ClientController {
 
   private final ClientService clientService;
 
-
+  /**
+   * Retrieve {@link server.network.dto.ClientPresentationDto} with provided ID.
+   *
+   * @param username ID of the client.
+   * @return Data corresponding to client.
+   */
   @GetMapping("client/{username}")
   public ResponseEntity<ClientPresentationDto> getClient(@PathVariable UUID username) {
     ClientPresentationDto clientPresentationDto = clientService.getClientByUsername(username);
@@ -43,6 +48,21 @@ public class ClientController {
     }
   }
 
+  /**
+   * Retrieve {@link server.network.dto.ClientPresentationPagedDto}.
+   *
+   * @param page of request.
+   * @param size of page.
+   * @param lastConnectionSince time of last connection since.
+   * @param lastConnectionTill time of last connection till.
+   * @param createdSince time of creation since.
+   * @param createdTill time of creation till.
+   * @param conditions list of conditions.
+   * @param roles list of roles.
+   * @param sortColumn sort by column.
+   * @param sortDirection sort direction.
+   * @return Page with clients meeting the requirements.
+   */
   @GetMapping("clients")
   public ResponseEntity<ClientPresentationPagedDto> getClients(
       @RequestParam(value = "pageNo", defaultValue = "0") int page,
