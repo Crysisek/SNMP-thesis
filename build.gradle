@@ -14,6 +14,13 @@ buildscript {
                 mapstruct       : '1.5.2.Final',
         ]
 
+        testVersions = [
+                groovyAll       : '4.0.6',
+                spock           : '2.3',
+                groovy          : '4.0',
+                springTest      : '2.7.5',
+        ]
+
         libs = [
                springWeb            : "org.springframework.boot:spring-boot-starter-web:$springBoot",
                springSecurity       : "org.springframework.boot:spring-boot-starter-security:$springBoot",
@@ -28,6 +35,10 @@ buildscript {
                lombok               : "org.projectlombok:lombok:$versions.lombok",
                mapstruct            : "org.mapstruct:mapstruct:$versions.mapstruct",
                mapstructProcessor   : "org.mapstruct:mapstruct-processor:$versions.mapstruct",
+               groovy               : "org.apache.groovy:groovy-all:$testVersions.groovyAll",
+               spock                : "org.spockframework:spock-core:$testVersions.spock-groovy-$testVersions.groovy",
+               spockSpring          : "org.spockframework:spock-spring:$testVersions.spock-groovy-$testVersions.groovy",
+               springTest           : "org.springframework.boot:spring-boot-starter-test:$testVersions.springTest",
         ]
     }
 }
@@ -36,6 +47,8 @@ plugins {
     id 'org.springframework.boot' version "${springBoot}"
     id 'io.spring.dependency-management' version "${springDependendyManagement}"
     id 'java'
+    id 'groovy'
+    id 'jacoco'
 }
 
 subprojects {
@@ -46,8 +59,14 @@ subprojects {
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
     apply plugin: 'java'
+    apply plugin: 'groovy'
+    apply plugin: 'jacoco'
 
     repositories {
         mavenCentral()
+    }
+
+    jacocoTestReport {
+        dependsOn test
     }
 }

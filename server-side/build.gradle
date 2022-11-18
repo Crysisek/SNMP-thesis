@@ -10,8 +10,26 @@ dependencies {
     compileOnly "$project.libs.lombok"
     annotationProcessor "$project.libs.lombok"
     annotationProcessor "$project.libs.mapstructProcessor"
+    testImplementation "$project.libs.groovy"
+    testImplementation "$project.libs.spock"
+    testImplementation "$project.libs.spockSpring"
+    testImplementation "$project.libs.springTest"
 }
 
 test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    "**/*MapperImpl*",
+                    "**/repository/*"
+            ])
+        }))
+    }
 }

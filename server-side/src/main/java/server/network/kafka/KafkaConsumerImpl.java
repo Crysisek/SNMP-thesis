@@ -12,8 +12,8 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import server.model.Status;
 import server.network.dto.ClientResponseDto;
-import server.network.service.ClientService;
-import server.network.service.StatusService;
+import server.service.ClientService;
+import server.service.StatusService;
 import server.tools.mappers.ClientMapper;
 import server.types.Condition;
 

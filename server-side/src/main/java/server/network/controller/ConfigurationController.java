@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import server.model.Client;
 import server.model.Config;
 import server.network.dto.ConfigResponseDto;
-import server.network.service.ClientService;
+import server.service.ClientService;
 import server.tools.mappers.ConfigMapper;
 import server.types.Condition;
 

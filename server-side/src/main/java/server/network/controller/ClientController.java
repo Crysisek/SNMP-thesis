@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import server.network.dto.ClientPresentationDto;
 import server.network.dto.ClientPresentationPagedDto;
-import server.network.service.ClientService;
+import server.service.ClientService;
 import server.types.ClientRole;
 import server.types.Condition;
 import server.types.SortColumn;

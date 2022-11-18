@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import server.network.dto.StatusPresentationPagedDto;
-import server.network.service.StatusService;
+import server.service.StatusService;
 
 /**
  * Sets endpoints related to {@link server.model.Status}.

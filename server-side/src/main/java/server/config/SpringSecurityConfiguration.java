@@ -11,11 +11,11 @@ import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import server.model.Client;
-import server.network.service.ClientDetailsService;
-import server.network.service.ClientService;
+import server.service.ClientService;
 import server.types.ClientRole;
 import server.types.Condition;
 
@@ -33,7 +33,7 @@ public class SpringSecurityConfiguration {
 
   private final PasswordEncoder passwordEncoder;
 
-  private final ClientDetailsService clientDetailsService;
+  private final UserDetailsService clientDetailsService;
 
   @Value("${auth.register.username}")
   private String defaultId;
@@ -88,10 +88,10 @@ public class SpringSecurityConfiguration {
         .condition(Condition.NO_CONDITION)
         .build();
 
-    if (clientService.findByUsername(defaultClient.getUsername()).isEmpty()) {
+    if (clientService.existsById(defaultClient.getUsername())) {
       clientService.save(defaultClient);
     }
-    if (clientService.findByUsername(admin.getUsername()).isEmpty()) {
+    if (clientService.existsById(admin.getUsername())) {
       clientService.save(admin);
     }
   }
