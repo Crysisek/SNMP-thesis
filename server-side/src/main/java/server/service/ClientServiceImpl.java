@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import lombok.Generated;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -150,7 +151,7 @@ public class ClientServiceImpl implements ClientService {
   }
 
   @Scheduled(fixedDelayString = "${schedule.log.checkOfflineClients}", timeUnit = TimeUnit.MINUTES)
-  void checkOfflineClients() {
+  private void checkOfflineClients() {
     repository.findAllByCondition(Condition.OFFLINE).forEach(offline -> log.warn(
             "Client with id: {} did not send any statuses for the last {} minutes. Latest update was: {}",
             offline.getUsername(),
@@ -161,7 +162,8 @@ public class ClientServiceImpl implements ClientService {
   }
 
   @Scheduled(fixedDelayString = "${schedule.markOfflineClients}", timeUnit = TimeUnit.MINUTES)
-  void markOfflineClients() {
+  private void markOfflineClients() {
     repository.updateInactiveClientsConditions(Condition.OFFLINE);
+    log.info("Updated inactive client conditions to " + Condition.OFFLINE);
   }
 }

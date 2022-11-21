@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  *
  * @author kacper.kalinowski
  */
+@lombok.Generated
 @AllArgsConstructor
 public class ClientDetails implements UserDetails {
 
