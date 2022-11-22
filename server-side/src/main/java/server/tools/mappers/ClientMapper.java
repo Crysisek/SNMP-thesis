@@ -1,8 +1,6 @@
 package server.tools.mappers;
 
 import java.time.Instant;
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,7 +10,6 @@ import server.model.Client;
 import server.model.Status;
 import server.network.dto.ClientPresentationDto;
 import server.network.dto.ClientResponseDto;
-import server.network.dto.StatusPresentationDto;
 
 /**
  * Helper class for mapping client related objects.

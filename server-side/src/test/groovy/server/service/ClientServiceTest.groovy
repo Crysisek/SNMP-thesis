@@ -1,12 +1,11 @@
 package server.service
 
-
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
 import org.springframework.security.crypto.password.PasswordEncoder
-import server.model.Client
 import server.Resources
+import server.model.Client
 import server.network.dto.ClientPresentationPagedDto
 import server.repository.ClientRepository
 import server.repository.StatusRepository
@@ -19,6 +18,7 @@ import server.types.Condition
 import server.types.SortColumn
 import spock.lang.Specification
 import spock.lang.Subject
+
 import java.time.Instant
 
 import static server.Resources.FAKE_ID

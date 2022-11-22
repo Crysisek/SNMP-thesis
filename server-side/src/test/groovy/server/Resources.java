@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import server.model.Client;
-import server.model.ClientDetails;
 import server.model.Status;
 import server.types.ClientRole;
 import server.types.Condition;
