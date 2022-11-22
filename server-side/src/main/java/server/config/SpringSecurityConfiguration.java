@@ -56,10 +56,11 @@ public class SpringSecurityConfiguration {
         .httpBasic().and()
         .formLogin().and()
         .authorizeRequests()
+        .antMatchers("/actuator/**").permitAll()
         .antMatchers("/api/configuration/register").hasAuthority(ClientRole.DEFAULT.name())
         .antMatchers("/api/configuration/config").hasAuthority(ClientRole.USER.name())
         .antMatchers("/api/configuration/disconnect/**").hasAuthority(ClientRole.USER.name())
-        .antMatchers("/**").hasAnyAuthority(ClientRole.ADMIN.name());
+        .antMatchers("/**").hasAuthority(ClientRole.ADMIN.name());
 
     return http.build();
   }
