@@ -56,7 +56,7 @@ public class SpringSecurityConfiguration {
         .httpBasic().and()
         .formLogin().and()
         .authorizeRequests()
-        .antMatchers("/actuator/**").permitAll()
+        .antMatchers("/actuator/health/**").permitAll()
         .antMatchers("/api/configuration/register").hasAuthority(ClientRole.DEFAULT.name())
         .antMatchers("/api/configuration/config").hasAuthority(ClientRole.USER.name())
         .antMatchers("/api/configuration/disconnect/**").hasAuthority(ClientRole.USER.name())
