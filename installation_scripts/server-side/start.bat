@@ -1,0 +1,1 @@
+java -jar server-side-0.0.1-SNAPSHOT

@@ -9,6 +9,7 @@ out/
 
 # Unignore docker files
 !docker/**
+!installation_scripts/**
 
 # Generated file after setup of ELK stack is done
 docker/setup-elk-stack/.done

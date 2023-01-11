@@ -1,0 +1,9 @@
+<service>
+  <id>client-side</id>
+  <name>client-side</name>
+  <description>This runs client-side as a service.</description>
+  <env name="CLIENT_HOME" value="%BASE%"/>
+  <executable>java</executable>
+  <arguments>-Xrs -Xmx256m -jar "%BASE%\client-side-0.0.1-SNAPSHOT.jar" --httpPort=8080</arguments>
+  <log mode="roll"></log>
+</service>

@@ -29,9 +29,9 @@ services:
     image: confluentinc/cp-zookeeper:${CONFLUENT_PLATFORM_VERSION}
     container_name: zookeeper
     ports:
-      - "2181:2181"
+      - "3181:3181"
     environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_CLIENT_PORT: 3181
       ZOOKEEPER_TICK_TIME: 2000
 
 
@@ -45,7 +45,7 @@ services:
       - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:3181
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL_SSL:SSL
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_LISTENERS: INTERNAL://broker:9092,EXTERNAL_SSL://broker:19092
